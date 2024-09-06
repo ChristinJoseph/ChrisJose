@@ -4,7 +4,10 @@ import serial
 sabertooth = serial.Serial('/dev/ttyUSB1', baudrate=9600, timeout=1)
 
 def map_sbus_to_sabertooth(sbus_value):
-    # Map SBUS range (172-1811) to Sabertooth command range (0-255)
+    # Ensure the SBUS value is within the expected range
+    sbus_value = max(172, min(sbus_value, 1811))
+    
+    # Linear interpolation: map SBUS range (172-1811) to Sabertooth range (0-255)
     command_value = int(((sbus_value - 172) * (255 - 0)) / (1811 - 172))
     return command_value
 
@@ -13,7 +16,7 @@ def send_sabertooth_command(command_value):
     sabertooth.write(bytes([command_value]))
 
 while True:
-    # Read and decode the SBUS data (simplified)
+    # Assume channels are extracted from SBUS frame
     channels = read_sbus_frame()
     if channels:
         # Get the command value mapped from SBUS channel 1
@@ -21,4 +24,3 @@ while True:
         
         # Send the command to Sabertooth motor driver
         send_sabertooth_command(command_value)
-
