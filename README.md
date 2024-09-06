@@ -1,32 +1,22 @@
-import serial
+Task 1
 
-# Initialize serial connection to SBUS receiver
-sbus = serial.Serial('/dev/ttyUSB0', baudrate=100000, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_TWO)
+To control the Sabertooth motor driver using data received from an RC transmitter via an SBUS receiver, we'll need to break down the process into a few key steps:
 
-def read_sbus_frame():
-    while sbus.in_waiting >= 25:
-        data = sbus.read(25)
-        if data[0] == 0x0F and data[24] == 0x00:  # Check start and end bytes
-            # Extract channel data
-            channels = []
-            channels.append((data[1] | data[2] << 8) & 0x07FF)    # Channel 1
-            # Add more channels as needed
-            return channels
+Understand SBUS Protocol:
 
-def map_sbus_to_pwm(sbus_value):
-    # Map SBUS range to PWM range for motor control
-    # Assuming SBUS value range: 172 - 1811, PWM range: 1000 - 2000 us
-    pwm_value = ((sbus_value - 172) * (2000 - 1000) / (1811 - 172)) + 1000
-    return pwm_value
+SBUS (Serial BUS) is a protocol used by many RC receivers. It typically transmits 16 channels of data at a time over a single serial connection.
+SBUS sends data in a specific format, including 25 bytes in each frame. The first byte is a start byte, the next 22 bytes contain channel data, the 24th byte is a flag byte, and the 25th is the end byte.
+SBUS Receiver Data Handling:
 
-def control_motor(pwm_value):
-    # Send PWM signal to Sabertooth driver (using a PWM library or direct GPIO control)
-    # Example with pseudo-code:
-    # pwm_output.write(pwm_value)
-    pass
+The receiver will provide SBUS data, which needs to be decoded into individual channel values.
+For example, each channel's data is 11 bits long, packed into the 22 bytes of channel data.
+Since the transmitter is configured for extended limits, the range of values might differ from the standard SBUS range (which is usually 172 to 1811, corresponding to -100% to +100%).
+Mapping SBUS Data to Motor Control:
 
-while True:
-    channels = read_sbus_frame()
-    if channels:
-        motor_pwm = map_sbus_to_pwm(channels[0])  # Use Channel 1 data for Motor 1
-        control_motor(motor_pwm)
+After decoding the SBUS data, you'll need to map the channel value to a control signal suitable for the Sabertooth motor driver.
+The Sabertooth can be controlled using analog, TTL serial, R/C pulse, or packetized serial commands. In this case, we assume you're using RC pulse signals.
+Code Implementation:
+
+You'll need to set up serial communication to read the SBUS data.
+Decode the channel values from the SBUS frame.
+Map the decoded value to a suitable PWM (Pulse Width Modulation) signal or command for the Sabertooth motor driver.
