@@ -21,7 +21,7 @@ THOUGHT PROCESS
 
 4.Serial Communication: Set up serial communication to send the calculated command to the Sabertooth motor driver.
 
-5.Code Implementation: (CODE) Ensure that the SBUS data is correctly received and decoded.
+5.Code Implementation:  Ensure that the SBUS data is correctly received and decoded.
   Apply the mapping function to convert the SBUS channel value to the Sabertooth command range.
   Send the command via serial to the motor driver.
   
