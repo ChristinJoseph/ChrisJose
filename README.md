@@ -13,13 +13,18 @@ The data from the RC transmitter is being received by an SBUS receiver module. S
 THOUGHT PROCESS
 
 1.Understanding the Components: Sabertooth 2x60 Motor Driver and SBUS Protocol
+
 2.Objective:Convert the SBUS channel value into a format that the Sabertooth motor driver can understand, 
   Ensure that lower SBUS values correspond to reverse motion and higher values correspond to forward motion, with a middle value corresponding to the stop position.
+  
 3.Mapping SBUS to Sabertooth Command
+
 4.Serial Communication: Set up serial communication to send the calculated command to the Sabertooth motor driver.
+
 5.Code Implementation: Ensure that the SBUS data is correctly received and decoded.
   Apply the mapping function to convert the SBUS channel value to the Sabertooth command range.
   Send the command via serial to the motor driver.
+  
 6.Testing and Fine-Tuning: After implementing the code, test it to verify that the rover moves correctly in response to the RC transmitter.
 
 
