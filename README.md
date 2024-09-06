@@ -1,4 +1,4 @@
-Task 1
+Task 1-
 Here's what I understood from your problem:
 You need to control a motor using the Sabertooth motor driver based on data received from an RC transmitter. Specifically, you're controlling Motor 1 via the S1 input of the Sabertooth.
 
