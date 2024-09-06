@@ -1,4 +1,3 @@
-# ChrisJose
 import serial
 
 # Initialize serial connection to SBUS receiver
